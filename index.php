@@ -19,7 +19,6 @@ $id = $parts[3] ?? null;
 
 $database = new Database("localhost", "product_db", "root", "");
 
-
 $gateway = new ProductGateway($database);
 
 $controller = new ProductController($gateway);

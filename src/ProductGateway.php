@@ -6,14 +6,21 @@ class ProductGateway
     {
         $this->conn = $database->getConnection();
     }
+    private function castTypes(array $row): array
+    {
+        $row['is_available'] = (bool) $row['is_available'];
+        return $row;
+    }
+
 
     public function getAll()
     {
         $sql = "SELECT * FROM product";
         $stmt = $this->conn->query($sql);
-        // var_dump($stmt);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return array_map([$this, 'castTypes'], $rows);
     }
 }
