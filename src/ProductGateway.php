@@ -6,6 +6,7 @@ class ProductGateway
     {
         $this->conn = $database->getConnection();
     }
+
     private function castTypes(array $row): array
     {
         $row['is_available'] = (bool) $row['is_available'];
