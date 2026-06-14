@@ -42,4 +42,42 @@ class ProductGateway
 
         return $this->conn->lastInsertId();
     }
+
+    public function get(string $id)
+    {
+        $sql = "SELECT * FROM product WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":id", $id, pdo::PARAM_INT);
+
+        $stmt->execute();
+
+        $data = $stmt->fetch(pdo::FETCH_ASSOC);
+
+        if (! $data == false) {
+            $data['is_available'] = (bool) $data['is_available'];
+        }
+
+        return $data;
+    }
+
+    public function update(array $current, array $new)
+    {
+        $sql = "UPDATE product SET name = :name , size = :size , is_available = :is_available WHERE id = :id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->bindValue(":name", $new["name"] ?? $current["name"], pdo::PARAM_STR);
+
+        $stmt->bindValue(":size", $new["size"] ?? $current["size"], pdo::PARAM_INT);
+
+        $stmt->bindValue(":is_available", $new["is_available"] ?? $current["is_available"], pdo::PARAM_BOOL);
+
+        $stmt->bindValue(":id", $current['id'], pdo::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->rowCount();
+    }
 }
