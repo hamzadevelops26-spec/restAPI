@@ -52,6 +52,10 @@ class ProductController
                     "rows" => $rows
                 ]);
                 break;
+
+            default:
+                http_response_code(405);
+                header("Allow: GET , PATCH , DELETE");
         }
     }
     private function processCollectionRequest(string $method)
