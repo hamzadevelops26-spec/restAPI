@@ -44,6 +44,14 @@ class ProductController
                     "rows" => $rows,
                 ]);
                 break;
+
+            case "DELETE":
+                $rows =   $this->gateway->delete($id);
+                echo json_encode([
+                    "message" => "Product $id deleted",
+                    "rows" => $rows
+                ]);
+                break;
         }
     }
     private function processCollectionRequest(string $method)
