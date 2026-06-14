@@ -38,6 +38,9 @@ class ProductController
                     "id" => $id,
 
                 ]);
+            default:
+                http_response_code(405);
+                header("Allow: GET , POST");
         }
     }
     private function getValidaionErrors(array $data)
